@@ -5,7 +5,7 @@ local function DeferOnce<A...>(callback: (A...) -> ...any): (A...) -> ()
 	local isDeferred = false
 	local args: { any } & { n: number } = {} :: any
 
-	return function(...)
+	local function deferOnce(...)
 		-- Update with the most recent arguments
 		args = table.pack(...)
 
@@ -26,6 +26,8 @@ local function DeferOnce<A...>(callback: (A...) -> ...any): (A...) -> ()
 			callback(table.unpack(args, 1, args.n))
 		end)
 	end
+
+	return deferOnce
 end
 
 return DeferOnce
